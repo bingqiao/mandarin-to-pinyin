@@ -1,0 +1,14 @@
+[package]
+name = "mandarin-to-pinyin"
+version = "0.0.1"
+edition = "2024"
+
+[dependencies]
+serde = { version = "1.0.219", features = ["derive"] }
+bincode = "2.0.1"
+phf = { version = "0.12.1", features = ["macros"] }
+
+[features]
+default = ["default-data"]
+prepare-data = []
+default-data = []
