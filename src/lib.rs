@@ -1,6 +1,5 @@
 use bincode::{Decode, Encode};
 use phf::phf_map;
-use serde::{Deserialize, Serialize};
 use std::{collections::HashMap, sync::OnceLock};
 
 static UNICODE_TO_PINYIN: OnceLock<HashMap<u32, Vec<String>>> = OnceLock::new();
@@ -80,7 +79,7 @@ static LETTER_TO_DIACRITIC: phf::Map<&'static str, char> = phf_map! {
 // We keep the serde traits for two reasons:
 // 1. Future-proofing: It allows easy serialization to JSON for debugging or other purposes.
 // 2. Ecosystem compatibility: It's standard practice for data structures to be serde-compatible.
-#[derive(Serialize, Deserialize, Encode, Decode, Debug)]
+#[derive(Encode, Decode, Debug)]
 pub struct UnicodeMapping {
     pub mappings: HashMap<u32, Vec<String>>,
 }

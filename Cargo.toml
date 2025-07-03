@@ -9,7 +9,6 @@ keywords = ["mandarin", "pinyin", "chinese", "conversion"]
 categories = ["text-processing", "localization"]
 
 [dependencies]
-serde = { version = "1.0.219", features = ["derive"] }
 bincode = "2.0.1"
 phf = { version = "0.12.1", features = ["macros"] }
 

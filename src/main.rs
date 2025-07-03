@@ -38,35 +38,24 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // It provides a runtime error message.
     #[cfg(not(feature = "prepare-data"))]
     {
-        use mandarin_to_pinyin::{
-            diacritic_to_tone_plus_number, init_map, lookup_chars_for_str,
-            lookup_chars_map_for_str, lookup_chars_vec_for_str, lookup_unicodes,
-            lookup_unicodes_map, lookup_unicodes_vec, tone_plus_number_to_diacritic,
-        };
+        use mandarin_to_pinyin::{init_map, to_pinyin_string};
+        use std::env;
+
+        let args: Vec<String> = env::args().collect();
+
+        if args.len() < 2 {
+            eprintln!("Usage: {} <chinese_string>", args[0]);
+            return Ok(());
+        }
+
+        let chinese_string = &args[1];
+
         init_map(None)?;
-        let lookup_result = lookup_unicodes(&vec![25497, 156094, 138716, 21340]);
-        println!("testing lookup_unicodes: {lookup_result:?}");
 
-        let lookup_result = lookup_unicodes_map(&vec![25497, 156094, 138716, 21340]);
-        println!("testing lookup_unicodes_map: {lookup_result:?}");
-
-        let lookup_result = lookup_unicodes_vec(&vec![25497, 156094, 138716, 21340]);
-        println!("testing lookup_unicodes_vec: {lookup_result:?}");
-
-        let lookup_result = lookup_chars_for_str("春眠不觉晓");
-        println!("testing lookup_chars: {lookup_result:?}");
-
-        let lookup_result = lookup_chars_map_for_str("春眠不觉晓");
-        println!("testing lookup_chars_map: {lookup_result:?}");
-
-        let lookup_result = lookup_chars_vec_for_str("春眠不觉晓");
-        println!("testing lookup_chars_vec: {lookup_result:?}");
-
-        let lookup_result = diacritic_to_tone_plus_number(&vec!["xiāng", "zhǐ", "lǘ"]);
-        println!("testing diacritic_to_tone_plus_number: {lookup_result:?}");
-
-        let lookup_result = tone_plus_number_to_diacritic(&vec!["xia1ng", "zhi3", "lü2", "jiv3"]);
-        println!("testing tone_plus_number_to_diacritic: {lookup_result:?}");
+        match to_pinyin_string(chinese_string, " ") {
+            Ok(pinyin) => println!("{}", pinyin),
+            Err(e) => eprintln!("Error converting to pinyin: {}", e),
+        }
 
         Ok(())
     }
